@@ -13,9 +13,6 @@
           <div class="skeleton etc"></div>
         </div>
       </div>
-      <!-- : -> 데이터바인딩으로 넣지 않으면 문자데이터로 들어간다, 데이터 바인딩으로 넣어야 지정한곳에서의 타입으로 들어간다-->
-      <!-- props -> html에서 작성할땐 카멜케이스를 사용하면 안된다 대쉬케이스로 사용해야한다 -->
-      <!-- boolena 데이터 추가할때 단순하게 속성의 유무만으로도 true/flase 지정이 가능하다 -> 명시하는거만으로도 true가 된다, 명시하지 않으면 false다 = 바인딩으로 할때는 명시지만 아닐경우 바인딩 안하는 방식으로 명시만 하면 된다-->
       <Loader :size="4" :z-index="9" fixed />
     </template>
 
@@ -38,12 +35,8 @@
         <div class="ratings">
           <h3>Ratings</h3>
           <div class="rating-wrap">
-            <!-- 반복해야할 속성이 두개이상이라면 객체구조분해서 불러온다 -->
-            <!-- 속성의 이름을 변경할때는 속성뒤쪽에 :를 붙여 사용할 이름을 명시하면 된다 -->
-            <!-- 데이터로 바인딩할땐 :을 붙여사용 아니면 안붙인다 -->
             <!-- :title -> html의 전역속성 -->
             <div v-for="{ Source: name, Value: score } in theMovie.Ratings" :key="name" :title="name" class="rating">
-              <!-- 반복으로 가져오는 값들하고 사진의 이름하고 일치시켜서 활용한다 -->
               <img :src="`https://raw.githubusercontent.com/ParkYoungWoong/vue3-movie-app/master/src/assets/${name}.png`" :alt="name">
               <span>{{ score }}</span>
             </div>
@@ -92,21 +85,18 @@ export default {
     }
   },
   created() {
-    // this.$route - 현재 페이지에 대한 정보를 얻을 수 있다(url주소에 대한 정보다) -> 거기에 params같이 index.js에서 동적으로 정의한 부분도 접근할 수 있다
-    // console.log(this.$route)
-    // dispatch -> store의 함수에 접근할때 매개변수는 2번째 인수로 줄 수 있다
     this.$store.dispatch('movie/searchMovieWithId', {
-      // index.js에서 동적으로 정의한 : id 부분이 $route.params.id 부분에 들어간다 
       id : this.$route.params.id
     })
   },
   methods: {
-    // 매개변수의 기본값을 지정할땐 ex) 매개변수 = ""로 지정할 수 있다
     requestDiffSizeImage(url, size = 700) {
+      if(!url || url == "N/A") {
+        this.imageLoading = false
+        // 해당사항이 없어도 background-img는 표시해야하니 빈문자열을 보내준다, undefiend가 나오면 background-img도 안나온다
+        return ''
+      }
       const src = url.replace('SX300', `SX${size}`)
-        // await을 사용하면 로딩이 끝나고 나서야 src 이미지 주소를 반환하는 문제가 있으므로 여기선 then 메소드를 사용한다
-        // 비동기가 실행되고나서 then 메소드가 실행된다, return 키워드는 그것과는 별개이므로 이미지 로딩을 기다리지 않고도 이미지 주소를 변경한 내용을 바로 반환이 가능하다
-        // 이렇게 async await을 사용할 수 없는 부분들이 있다 이럴경운 then() 같은 비동기 메소드를 사용하므로써 로직의 흐름을 방해하지 않고도 비동기를 처리해줄 수 있다 
       this.$loadImage(src).then(() => {
         this.imageLoading = false
       })
@@ -119,7 +109,6 @@ export default {
 
 <style lang="scss" scoped>
 
-@import "~/scss/main";
 
 .container {
   padding-top: 40px;
@@ -224,6 +213,34 @@ export default {
       color: $black;
       font-family: "Oswald", sans-serif;
       font-size: 20px;
+    }
+  }
+  @include media-breakpoint-down(xl) {
+    .poster {
+      width: 300px;
+      height: 300px * 3 / 2;
+      margin-right: 40px;
+    }
+  }
+  @include media-breakpoint-down(lg) {
+    display: block;
+    .poster {
+      margin-bottom: 40px;
+    }
+  }
+  @include media-breakpoint-down(md) {
+    .specs {
+      .title {
+        font-size: 50px;
+      }
+      .ratings {
+        .rating-wrap {
+          display: block;
+          .rating {
+            margin-top: 10px;
+          }
+        }
+      }
     }
   }
 }

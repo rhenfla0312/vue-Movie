@@ -1,5 +1,5 @@
 <template>
-  <div class="movie" :style="{ backgroundImage: `url(${movie.Poster})`}">
+  <RouterLink :to="`/movie/${movie.imdbID}`"  class="movie" :style="{ backgroundImage: `url(${movie.Poster})`}">
     <Loader v-if="imageLoading" :size="1.5" absolute />
     <div class="info">
       <div class="year">
@@ -9,7 +9,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </RouterLink>
 </template>
 
 
@@ -36,8 +36,13 @@ export default {
   methods: {
     // 무엇인가를 초기화
     async init() {
-      await this.$loadImage(this.movie.Poster)
-      this.imageLoading = false
+      const poster = this.movie.Poster
+      if(!poster || poster == 'N/A') {
+        this.imageLoading = false
+      } else {
+        await this.$loadImage(poster)
+        this.imageLoading = false
+      }
     }
   },
   // 연결이 된 직후 실행
@@ -50,7 +55,7 @@ export default {
 
 <style lang="scss" scoped>
 
-@import "~/scss/main";
+
 
 .movie {
   // height는 width의 2 / 3 만큼의 넓이를 가지길 원하지만 width를 세밀하게 정할경우 변수에 넣어 나눠준다
