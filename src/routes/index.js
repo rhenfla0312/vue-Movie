@@ -9,6 +9,10 @@ import NotFound from './NotFound'
 export default createRouter({
 
   history: createWebHashHistory(),
+  // 스크롤 이동시 무조건 스크롤위 위치가 top : 0인 상태로 시작된다 (최상단)
+  scrollBehavior() {
+    return { top : 0 }
+  },
   
   // 웹사이트의 하나의 페이지
   routes: [

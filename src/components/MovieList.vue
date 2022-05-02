@@ -14,7 +14,7 @@
 
 
 <script>
-
+import { mapState } from 'vuex'
 import MovieItem from '~/components/MovieItem'
 // lodingbar
 import Loder from '~/components/Loader'
@@ -25,15 +25,11 @@ export default {
     Loder
   },
   computed: {
-    movies() {
-      return this.$store.state.movie.movies
-    },
-    message() {
-      return this.$store.state.movie.message
-    },
-    loading() {
-      return this.$store.state.movie.loading
-    }
+    ...mapState('movie', [
+      'movies',
+      'message',
+      'loading'
+    ])
   }
 }
 </script>

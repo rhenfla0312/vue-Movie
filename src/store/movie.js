@@ -5,13 +5,15 @@ import axios from 'axios'
 // uniq
 import _uniqBy from 'lodash/uniqBy'
 
+const _defaultMessage = 'Search for the movie title!'
+
 export default {
   // module -> true
   namespaced: true,
   // data
   state: () => ({
     movies: [],
-    message: 'Search for the movie title!',
+    message: _defaultMessage,
     loading: false,
     theMovie: {}
   }),
@@ -31,8 +33,11 @@ export default {
       })
     },
 
+    // 실행이되면 각가의 데이터들을 초기화시켜준다 -> 메인페이지로 돌아올때마다 실행
     resetMovies(state) {
       state.movies = []
+      state.message = _defaultMessage
+      state.loding = false
     }
   },
   // 비동기로 동작한다

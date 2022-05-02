@@ -7,7 +7,7 @@
     <div class="name">
       {{ name }}
     </div>
-    <div>{{ email }}d</div>
+    <div>{{ email }}</div>
     <div>{{ blog }}</div>
     <div>{{ phone }}</div>
   </div>
@@ -15,6 +15,7 @@
 
 
 <script>
+import { mapState } from 'vuex'
 import Loader from '~/components/Loader'
 export default {
   components: {
@@ -26,21 +27,13 @@ export default {
     }
   },
   computed: {
-    image() {
-      return this.$store.state.about.image
-    },
-    name() {
-      return this.$store.state.about.name
-    },
-    email() {
-      return this.$store.state.about.email
-    },
-    blog() {
-      return this.$store.state.about.blog
-    },
-    phone() {
-      return this.$store.state.about.phone
-    }
+    ...mapState('about', [
+      'image',
+      'name',
+      'email',
+      'blog',
+      'phone'
+    ])
   },
   mounted() {
     this.init()

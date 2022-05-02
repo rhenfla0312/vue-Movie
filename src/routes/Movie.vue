@@ -64,6 +64,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 // lodingBar
 import Loader from '~/components/Loader'
 
@@ -77,12 +78,10 @@ export default {
     }
   },
   computed: {
-    theMovie() {
-      return this.$store.state.movie.theMovie
-    },
-    loading() {
-      return this.$store.state.movie.loding
-    }
+    ...mapState('movie', [
+      'theMovie',
+      'loding'
+    ]) 
   },
   created() {
     this.$store.dispatch('movie/searchMovieWithId', {
@@ -90,6 +89,10 @@ export default {
     })
   },
   methods: {
+    ...mapActions('movie', [
+      'searchMovieWithId'
+    ]),
+    
     requestDiffSizeImage(url, size = 700) {
       if(!url || url == "N/A") {
         this.imageLoading = false
