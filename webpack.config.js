@@ -4,6 +4,8 @@ const path = require('path')
 const HtmlPlugin = require('html-webpack-plugin')
 // copy-plugin
 const CopyPlugin = require('copy-webpack-plugin')
+// dotenv
+const Dotenv = require('dotenv-webpack')
 
 // vue
 const { VueLoaderPlugin } = require('vue-loader');
@@ -78,7 +80,8 @@ module.exports = {
         { from: 'static' }
       ]
     }),
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    new Dotenv()
   ],
 
   devServer: {

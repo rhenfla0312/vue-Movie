@@ -2,6 +2,10 @@
 
 // axios가져오기 
 const axios = require('axios')
+// .env
+// const OMDB_API_KEY = process.env.OMDB_API_KEY
+// 객체 구조분해로 사용
+const { OMDB_API_KEY } = process.env
 
 exports.handler = async function(event, context) {
 
@@ -11,7 +15,7 @@ exports.handler = async function(event, context) {
     // 예제) payload로 객체데이터로 받아서 거기안에 들어있는 각각의 필요한 데이터들을 객체구조분해로 받아와서 사용한다
     const payload = JSON.parse(event.body)
     const { title, type, year, page, id } = payload;
-    const OMDB_API_KEY = '7035c60c';
+    // const OMDB_API_KEY = '7035c60c';
     const url = id ? `https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&i=${id}` : `https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&s=${title}&type=${type}&y=${year}&page=${page}`;
     // 다른 파라미터 없이 API KEY만 가져왔을 경우 catch가 아닌 then으로 에러메세지를 받는 예외처리 예제연습
     // const url = `https://www.omdbapi.com/?apikey=${OMDB_API_KEY}`;
