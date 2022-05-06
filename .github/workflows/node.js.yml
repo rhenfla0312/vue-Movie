@@ -22,5 +22,5 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     # push할때마다 npm install을 실행하는게 아닌 node_modules에 변경이 있을때마다만 npm install을 한다
-     if: steps.cache.outputs.cache-hit != 'true'
+    if: steps.cache.outputs.cache-hit != 'true'
     - run: npm install
