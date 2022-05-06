@@ -90,11 +90,11 @@ export default {
             })
           }
         }
-      } catch (message) {
+      } catch ({ message }) {
         commit('updateState', {
           // 검색된 내용이 에러가 발생하면 검색된 내용이 화면에 안보이고 별도로 메세지를 출력한다
           movies: [],
-          message: message
+          message
         })
         // 정상적으로 실행이 되든, 문제가되든 finally로 loding : false로 만들어준다
       } finally {
@@ -137,26 +137,9 @@ export default {
   }
 }
 
-// _ -> 현재파일에서만 실행된다라는 암묵적 의미
-function _fetchMovie(payload) {
-  const { title, type, year, page, id } = payload;
-  const OMDB_API_KEY = '7035c60c';
-  const url = id ? `https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&i=${id}` : `https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&s=${title}&type=${type}&y=${year}&page=${page}`;
-  // 다른 파라미터 없이 API KEY만 가져왔을 경우 catch가 아닌 then으로 에러메세지를 받는 예외처리 예제연습
-  // const url = `https://www.omdbapi.com/?apikey=${OMDB_API_KEY}`;
 
-  return new Promise((resolve, reject) => {
-    axios.get(url)
-    .then(res => {
-      if(res.data.Error) {
-        reject(res.data.Error)
-      }
-      resolve(res)
-    
-    })
-    // axios.get에서 error가 발생하게 되면 catch 부분으로 js의 error객체가 넘어간다 
-    .catch(err => {
-      reject(err.message)
-    })
-  })
+// 함수가 실행되면 axios.post로 netlify -> serverlise functions가 동작하는데 내부적으로 처리가 완료될때까지 기다렸다가 처리가 완료된 결과를 함수 밖으로 리턴을 한다
+// 리턴된 결과는 위에서 기존에 사용한 부분에서 사용해진다
+async function _fetchMovie(payload) {
+  return await axios.post('/.netlify/functions/movie', payload)
 }
