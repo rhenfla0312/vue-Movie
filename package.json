@@ -6,6 +6,7 @@
   "scripts": {
     "dev:webpack": "webpack-dev-server --mode development",
     "dev": "netlify dev",
+    "build:netlipy" : "netlify build",
     "build": "webpack --mode production"
   },
   "keywords": [],
