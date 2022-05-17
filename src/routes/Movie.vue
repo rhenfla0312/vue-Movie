@@ -89,9 +89,9 @@ export default {
     })
   },
   methods: {
-    ...mapActions('movie', [
-      'searchMovieWithId'
-    ]),
+    // ...mapActions('movie', [
+    //   'searchMovieWithId'
+    // ]),
     
     requestDiffSizeImage(url, size = 700) {
       if(!url || url == "N/A") {
