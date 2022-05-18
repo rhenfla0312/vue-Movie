@@ -12,7 +12,8 @@ module.exports = {
   // 일치하는 경로에 있는 모듈을 가져오지 않는다
   modulePathIgnorePatterns: [
     '<rootDir>/node_modules',
-    '<rootDir>/dist'
+    '<rootDir>/dist',
+    '<rootDir>/cypress'
   ],
 
   // 테스트 환경에서 동작하기위한 URL -> 로컬 URL
